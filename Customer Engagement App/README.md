@@ -1,3 +1,5 @@
+![](../shared_assets/sis-header.jpeg)
+
 ## Customer Engagement for StreamingEdu
 
 This SiS example app is a dashboard app that looks at customer engagement on StreamingEdu, a (fictional) educational platform that delivers courses and tutorials through live streaming and on-demand content.

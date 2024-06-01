@@ -1,3 +1,5 @@
+![](../shared_assets/sis-header.jpeg)
+
 ## NY Pickup Location App
 
 An app that visualizes geo-temporal data from NY taxi pickups using H3 and time series.

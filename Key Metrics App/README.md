@@ -1,4 +1,6 @@
-## Key Metrics: CloudWiFiControllers
+![](../shared_assets/sis-header.jpeg)
+
+# Key Metrics: CloudWiFiControllers
 
 This is the keymetrics for CloudWiFiControllers which is an app for a company with more than 40 years in the market that specializes in networking. The main product is WiFi controller on the cloud and the main idea behind it is to display metrics related to the used cloud provider, customers online status and sales statistics.
 

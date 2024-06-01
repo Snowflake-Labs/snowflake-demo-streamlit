@@ -1,3 +1,5 @@
+![](../shared_assets/sis-header.jpeg)
+
 # Inventory Tracker
 This inventory tracking application is designed to show off the ability for Streamlit in Snowflake apps to read from and write to your Snowflake account through the example of inventory management. Additionally, the application offers useful charts to easily identify if a product is running low on inventory, along with a best-seller chart for insights into product performance.
 

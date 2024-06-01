@@ -1,3 +1,5 @@
+![](../shared_assets/sis-header.jpeg)
+
 ## User Retention Chart App
 This application comprises two distinct analyses. The first is a cohort analysis, the kind of analysis can ilustrate how many customers have come back to the product in weeks or months after they first start using the product.
 

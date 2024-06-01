@@ -1,3 +1,5 @@
+![](../shared_assets/sis-header.jpeg)
+
 # Language Usage
 This Streamlit app is designed to explore the language preferences of users visiting MyApp. This information is valuable for gaining insights into the global usage patterns of MyApp, enabling more in-depth analyses based on these language preferences.
 In the "Languages" section, you can choose from a predefined set of languages or regions. You have the option to add or remove specific languages using the second selection box. Additionally, there are checkboxes available to normalize or combine the data based on your preferences.

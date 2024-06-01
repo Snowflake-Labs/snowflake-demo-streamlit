@@ -1,3 +1,5 @@
+![](../shared_assets/sis-header.jpeg)
+
 # SQL Query Optimizer using Snowflake Cortex
 
 Dealing with slow-running SQL queries can be frustrating and costly. Inefficient queries can sap both compute credits and productivity. Here's a Streamlit application that leverages [Snowflake Cortex](https://docs.snowflake.com/en/user-guide/snowflake-cortex/overview) to streamline this process. Here are three key benefits you can expect:

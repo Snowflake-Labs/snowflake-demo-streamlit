@@ -1,3 +1,5 @@
+![](../shared_assets/sis-header.jpeg)
+
 # Retrieval Augmented Generation with Snowflake Cortex
 
 **What is Retrieval Augmented Generation (RAG)?** \

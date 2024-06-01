@@ -1,3 +1,5 @@
+![](../shared_assets/sis-header.jpeg)
+
 # CRUD App: Reading and Writing data from Snowflake
 This app demonstrates how to read and write back data into Snowflake from a Streamlit app
 

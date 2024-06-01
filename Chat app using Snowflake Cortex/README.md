@@ -1,3 +1,5 @@
+![](../shared_assets/sis-header.jpeg)
+
 # Simple Chat app
 Use Snowflake Cortex to build a LLM chat app
 

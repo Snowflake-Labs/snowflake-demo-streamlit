@@ -1,3 +1,5 @@
+![](../shared_assets/sis-header.jpeg)
+
 # Email Generator 📨
 
 🚀 Dive into the world of generative AI with Snowflake Cortex and Streamlit! This example app demonstrates how easy it is to create professional emails on any topic of your choice. 📧💡
