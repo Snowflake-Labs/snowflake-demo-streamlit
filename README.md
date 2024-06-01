@@ -2,7 +2,7 @@
 
 This repo contains a collection of Streamlit in Snowflake demos, tutorials, and examples. Browse each folder to access the files associated with each demo.
 
-![](sis-home.png)
+![](./shared_assets/sis-home.png)
 
 ## Repository structure
 
@@ -13,7 +13,8 @@ Every folder is an independent Streamlit app containing code, setup scripts and 
 
 Streamlit in Snowflake can be used for a variety of use cases. 
 
-![](sis-use-cases.png)
+![](./shared_assets/sis-use-cases-1.png)
+![](./shared_assets/sis-use-cases-2.png)
 
 ## License
 
