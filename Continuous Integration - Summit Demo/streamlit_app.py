@@ -16,6 +16,28 @@ def is_local() -> bool:
     """
     return st.experimental_user.email in {"test@localhost.com", "test@example.com"}
 
+@st.cache_data
+def generate_fake_data_for_demo(seed=36) -> pd.DataFrame:
+    """
+    Generates a dataframe of customers and views for
+    this demo, and caches it. If you are using this demo,
+    you ideally will replace this with your own data.
+    """
+
+    df = pd.DataFrame(
+        {
+            "date": pd.date_range(start="1/1/2020", periods=100),
+            "customers": np.random.randint(100, 1000, 100),
+        }
+    )
+    df["customers"] = df["customers"].cumsum()
+    np.random.seed(seed)
+    df["views"] = np.random.randint(100, 1000, 100)
+    df["views"] = df["views"] * np.log(df.index) * np.random.uniform(1, 1.6, 100)
+    df["views"][0] = 0
+
+    return df
+
 
 st.title(f"❄️ Streamlit in Snowflake Key Metrics (dummy data) ❄️")
 st.sidebar.image(
@@ -29,18 +51,7 @@ if is_local():
 else:
     session = get_active_session()
 
-
-# create some dummy customer data for this demo
-df = pd.DataFrame(
-    {
-        "date": pd.date_range(start="1/1/2020", periods=100),
-        "customers": np.random.randint(100, 1000, 100),
-    }
-)
-df["customers"] = df["customers"].cumsum()
-df["views"] = np.random.randint(100, 1000, 100)
-df["views"] = df["views"] * np.log(df.index) * np.random.uniform(1, 1.6, 100)
-df["views"][0] = 0
+df = generate_fake_data_for_demo()
 
 col1, col2 = st.columns(2)
 with col1:
