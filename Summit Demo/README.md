@@ -8,3 +8,6 @@ To set up this repo, simply clone it, set up your [SnowCLI config](https://docs.
 then run ```snow streamlit deploy --replace``` to deploy your version of the app. All the GitHub workflows are in the .github folder as well.
 
 Questions? Please email tyler.richards@snowflake.com to get more info.
+
+## Demo App Preview
+![File Snapshot](snapshot_app.gif)

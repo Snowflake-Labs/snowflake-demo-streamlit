@@ -39,7 +39,7 @@ col1, col2 = st.columns(2)
 with col1:
     st.subheader("Number of customers")
     taba, tabb = st.tabs(["Chart", "Data"])
-    taba.line_chart(df.set_index('date'))
+    taba.line_chart(df.set_index('date')['customers'])
     tabb.write(df)
 
 
@@ -54,16 +54,7 @@ df['views_per_customer'] = df['views'] / df['customers']
 st.subheader("Views per customer")
 st.line_chart(df.set_index('date')['views_per_customer'])
 
-st.subheader("User Feedback")
 df_feedback = session.sql('select * from streamlit.public.feedback_table').to_pandas()
-
-#views per company
-df['views_per_company'] = df['views'] / df['customers']
-
-st.subheader("views per customer")
-st.line_chart(df.set_index('date')['views_per_company'])
-
-
 prompt = """
 Please summarize the following feedback comments
     in markdown from our streamlit in snowflake users,
