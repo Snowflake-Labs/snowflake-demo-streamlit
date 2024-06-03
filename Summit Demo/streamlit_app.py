@@ -7,7 +7,7 @@ st.set_page_config(layout="wide")
 
 def is_local() -> bool:
     """
-    Check if app is running locally
+    Check if app is running locally, by checking if the user email is a local one.
 
     Returns:
         bool: True if running locally, else (if in SiS) False.
@@ -25,13 +25,16 @@ else:
     session = get_active_session()
 
 
+#create some dummy customer data for this demo
 df = pd.DataFrame({
     'date': pd.date_range(start='1/1/2020', periods=100),
     'customers': np.random.randint(100, 1000, 100)
     })
-
-#make the customers cumulative
 df['customers'] = df['customers'].cumsum()
+df['views'] = np.random.randint(100, 1000, 100)
+df['views'] = df['views'] * np.log(df.index) * np.random.uniform(1, 1.6, 100)
+df['views'][0] = 0
+
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("Number of customers")
@@ -39,9 +42,6 @@ with col1:
     taba.line_chart(df.set_index('date'))
     tabb.write(df)
 
-df['views'] = np.random.randint(100, 1000, 100)
-df['views'] = df['views'] * np.log(df.index) * np.random.uniform(1, 1.6, 100)
-df['views'][0] = 0
 
 with col2:
     st.subheader("Views per day")
@@ -54,9 +54,8 @@ df['views_per_customer'] = df['views'] / df['customers']
 st.subheader("Views per customer")
 st.line_chart(df.set_index('date')['views_per_customer'])
 
+st.subheader("User Feedback")
 df_feedback = session.sql('select * from streamlit.public.feedback_table').to_pandas()
-
-
 
 #views per company
 df['views_per_company'] = df['views'] / df['customers']
