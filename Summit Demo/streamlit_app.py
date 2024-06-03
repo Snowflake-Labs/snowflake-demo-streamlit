@@ -61,7 +61,6 @@ Please summarize the following feedback comments
     just give the top 3 good things and 3 improvement areas about the product: '
 """
 df_feedback = session.sql('select * from streamlit.public.feedback_table').to_pandas()
-#add feedback to prompt
 prompt += "\n\n".join(df_feedback['FEEDBACK'])
 st.subheader("User Feedback")
 response = Complete(

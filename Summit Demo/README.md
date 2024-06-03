@@ -7,6 +7,8 @@ inside Streamlit in Snowflake.
 To set up this repo, simply clone it, set up your [SnowCLI config](https://docs.snowflake.com/en/developer-guide/snowflake-cli-v2/index),
 then run ```snow streamlit deploy --replace``` to deploy your version of the app. All the GitHub workflows are in the .github folder as well.
 
+The end of the app relies on a table created in the demo called ```streamlit.public.feedback_table```. To create this table, you can [upload](https://docs.snowflake.com/en/user-guide/data-load-web-ui) the dummy data supplied in the ```feedback.csv``` file.
+
 Questions? Please email tyler.richards@snowflake.com to get more info.
 
 ## Demo App Preview
