@@ -56,11 +56,7 @@ st.line_chart(df.set_index('date')['views_per_customer'])
 
 df_feedback = session.sql('select * from streamlit.public.feedback_table').to_pandas()
 
-st.write(df_feedback)
 
-
-st.stop()
-#beyond this point will be live coded
 
 #views per company
 df['views_per_company'] = df['views'] / df['customers']
@@ -69,10 +65,10 @@ st.subheader("views per customer")
 st.line_chart(df.set_index('date')['views_per_company'])
 
 
-
 prompt = """
 Please summarize the following feedback comments
-    in markdown from our streamlit in snowflake users, just give the top 3 good things and 3 improvement areas about the product: '
+    in markdown from our streamlit in snowflake users,
+    just give the top 3 good things and 3 improvement areas about the product: '
 """
 df_feedback = session.sql('select * from streamlit.public.feedback_table').to_pandas()
 #add feedback to prompt
