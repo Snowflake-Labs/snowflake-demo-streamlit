@@ -3,7 +3,7 @@
 # Snowflake Summit Demo 2024
 
 This repo contains a demo that was used during the Snowflake Summit in June of 2024. In this demo we show
-users how to create a full CI/CD workflow with Github and the SnowCLI, along with how to use Snowflake Cortex
+users how to create a full CI/CD workflow with GitHub and the SnowCLI, along with how to use Snowflake Cortex
 inside Streamlit in Snowflake.
 
 ## Setup
