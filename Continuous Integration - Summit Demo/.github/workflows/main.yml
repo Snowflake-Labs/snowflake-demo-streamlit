@@ -1,0 +1,43 @@
+name: Deploy via snowcli
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PYTHON_VERSION: '3.8'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v3
+
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: 'Install snowcli'
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install snowflake-cli-labs
+
+    - name: 'Create snowsql config'
+      shell: bash
+      env:
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWCLI_PW }}
+      run: |
+        mkdir -p ~/.snowflake
+        cp tmp_config.toml ~/.snowflake/config.toml
+        echo "password = \"$SNOWFLAKE_PASSWORD\"" >> ~/.snowflake/config.toml
+        chmod 0600 ~/.snowflake/config.toml
+
+    - name: 'Deploy the streamlit app'
+      shell: bash
+      run: |
+        snow streamlit deploy --replace
