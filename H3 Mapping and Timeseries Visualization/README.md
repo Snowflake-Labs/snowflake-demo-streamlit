@@ -14,6 +14,8 @@ Additionally, the sidebar features a SMAPE metric table, providing an insightful
 prediction accuracy across H3 cells. A lower SMAPE score indicates a more accurate prediction,
 empowering users to identify the most reliable forecasts effortlessly.
 
+Check "Getting started with Geospatial AI and ML using Snowflake Cortex" [quickstart](https://quickstarts.snowflake.com/guide/geo-for-machine-learning/index.html?index=..%2F..index#2) for more details about the demand prediciton use case.
+
 ## App layout
 
 Below we can see two charts that show the comparision for the forecast and the actual pickup values by H3.
