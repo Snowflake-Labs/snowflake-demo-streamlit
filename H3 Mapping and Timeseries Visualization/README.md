@@ -35,7 +35,7 @@ CREATE OR REPLACE DATABASE h3_timeseries_visualization_db;
 CREATE OR REPLACE SCHEMA h3_timeseries_visualization_db.h3_timeseries_visualization_s;
 
 CREATE OR REPLACE STAGE h3_timeseries_visualization_db.h3_timeseries_visualization_s.geostage
-  URL = 's3://sfquickstarts/geo_for_machine_learning/';
+  URL = 's3://sfquickstarts/hol_geo_spatial_ml_using_snowflake_cortex/';
 
 CREATE OR REPLACE FILE FORMAT geocsv TYPE = CSV SKIP_HEADER = 1 FIELD_OPTIONALLY_ENCLOSED_BY = '"';
 
