@@ -13,8 +13,7 @@ Every folder is an independent Streamlit app containing code, setup scripts and 
 
 Streamlit in Snowflake can be used for a variety of use cases. 
 
-![](./shared_assets/sis-use-cases-1.png)
-![](./shared_assets/sis-use-cases-2.png)
+![](./shared_assets/use_cases.png)
 
 ## License
 
