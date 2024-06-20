@@ -11,8 +11,8 @@ class MockSnowparkDF:
         return self.df
 
 
-# @patch replaces the streamlit.connection with a MagicMock, the conn argument to test_app()
-# This enables mocking the Snowflake sql() call. See:
+# @patch replaces the Snowflake calls with MagicMocks passed as arguments
+# This enables mocking the Snowflake sql() and Complete() calls. See:
 # https://docs.python.org/3/library/unittest.mock.html#quick-guide
 @patch("snowflake.cortex.Complete")
 @patch("streamlit.connection")
