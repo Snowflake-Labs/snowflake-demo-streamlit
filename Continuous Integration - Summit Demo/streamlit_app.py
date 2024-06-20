@@ -1,20 +1,10 @@
 import streamlit as st
 import numpy as np
-from snowflake.snowpark.context import get_active_session
 from snowflake.cortex import Complete
 import pandas as pd
 
 st.set_page_config(layout="wide")
 
-
-def is_local() -> bool:
-    """
-    Check if app is running locally, by checking if the user email is a local one.
-
-    Returns:
-        bool: True if running locally, else (if in SiS) False.
-    """
-    return st.experimental_user.email in {"test@localhost.com", "test@example.com"}
 
 @st.cache_data
 def generate_fake_data_for_demo(seed=36) -> pd.DataFrame:
@@ -39,17 +29,12 @@ def generate_fake_data_for_demo(seed=36) -> pd.DataFrame:
     return df
 
 
-st.title(f"❄️ Streamlit in Snowflake Key Metrics (dummy data) ❄️")
+st.title("❄️ Streamlit in Snowflake Key Metrics (dummy data) ❄️")
 st.sidebar.image(
     "https://upload.wikimedia.org/wikipedia/commons/f/ff/Snowflake_Logo.svg"
 )
 
-if is_local():
-    conn = st.connection("snowflake")
-    session = conn.session()
-
-else:
-    session = get_active_session()
+session = st.connection('snowflake').session()
 
 df = generate_fake_data_for_demo()
 
