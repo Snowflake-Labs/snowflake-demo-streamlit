@@ -1,6 +1,7 @@
 import inspect
 import streamlit as st
 from streamlit.errors import StreamlitAPIException
+from streamlit_extras.echo_expander import echo_expander
 
 
 st.set_page_config(layout="wide")
@@ -241,7 +242,7 @@ def example_app():
         """
     ):
         with st.container():
-            st.write("9.437")
+            st.write("9,437")
             st.write("Global Customers")
         with st.container():
             st.write("4.2B")
@@ -472,7 +473,8 @@ def example_app():
 
 
 def custom_ui_features():
-    from streamlit_extras.echo_expander import echo_expander
+    # Clear the padding MD from other mode
+    st.sidebar.markdown("")
 
     st.title("✨ Custom UI for Streamlit in Snowflake")
 
