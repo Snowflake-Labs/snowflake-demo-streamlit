@@ -39,12 +39,6 @@ CREATE OR REPLACE STAGE h3_timeseries_visualization_db.h3_timeseries_visualizati
 
 CREATE OR REPLACE FILE FORMAT geocsv TYPE = CSV SKIP_HEADER = 1 FIELD_OPTIONALLY_ENCLOSED_BY = '"';
 
-CREATE OR REPLACE TABLE geolab.geometry.nl_cables_stations AS 
-SELECT to_geometry($1) AS geometry, 
-       $2 AS id, 
-       $3 AS type 
-FROM @geostage/nl_stations_cables.csv (file_format => 'geocsv');
-
 CREATE OR REPLACE TABLE h3_timeseries_visualization_db.h3_timeseries_visualization_s.NY_TAXI_RIDES_COMPARE (
 	H3 VARCHAR(16777216),
 	PICKUP_TIME TIMESTAMP_NTZ(9),
