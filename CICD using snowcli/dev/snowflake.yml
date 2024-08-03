@@ -1,0 +1,6 @@
+definition_version: 1
+streamlit:
+  name: MY_DEV_APP
+  query_warehouse: AF_TEST
+  main_file: streamlit_app.py
+  env_file: environment.yml

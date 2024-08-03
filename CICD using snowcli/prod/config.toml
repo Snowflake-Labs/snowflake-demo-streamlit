@@ -1,0 +1,6 @@
+[connections.default]
+account = "<your account identifier>"
+user = "admin"
+role = "SYSADMIN"
+database = "TEST"
+schema = "PUBLIC"
