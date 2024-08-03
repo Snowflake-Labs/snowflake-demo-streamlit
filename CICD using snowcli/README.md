@@ -1,6 +1,6 @@
 ![](../shared_assets/sis-header.jpeg)
 
-# CICD for Streamlit in Snowflake apps using snowcli
+# CICD for Streamlit in Snowflake apps using Snowflake CLI
 
 This demo shows how to create a full CI/CD workflow for deploying Streamlit apps to Snowflake using GitHub Actions and [Snowflake CLI](https://docs.snowflake.com/en/developer-guide/snowflake-cli-v2/index).
 
