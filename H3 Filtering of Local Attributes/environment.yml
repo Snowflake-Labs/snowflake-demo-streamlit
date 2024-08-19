@@ -1,0 +1,11 @@
+name: app_environment
+channels:
+  - snowflake
+dependencies:
+  - branca=0.6.0
+  - geopy=2.3.0
+  - h3-py=3.7.6
+  - pydeck=0.8.0
+  - python=3.8.*
+  - snowflake-snowpark-python=
+  - streamlit=
