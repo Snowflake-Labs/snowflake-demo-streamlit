@@ -69,7 +69,7 @@ When [setting up a new Streamlit App](https://docs.snowflake.com/en/developer-gu
 
    Upload files by clicking the "Upload" button. Note that files with identical names will overwrite existing ones in the stage.
 
-   ![Upload folder files](../assets/upload_folder_files_stage.png)
+   ![Upload folder files](../instructions_assets/upload_folder_files_stage.png)
 
 8. **Completing Upload**
 
