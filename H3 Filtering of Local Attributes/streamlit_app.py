@@ -130,12 +130,6 @@ with st.spinner("Loading Chart!"):
                 tooltip={"text": "Station Name: {NAME} Footfall: {FOOTFALL},MP: {MP}"},
             )
             final_chart = st.pydeck_chart(deck)
-            st.write(
-                """
-                [CARTO](https://app.snowflake.com/marketplace/providers/GZT0ZKUCHE3/CARTO?originTab=providers)
-                is a free location platform that served as the data source for this project.
-                """
-            )
             if "POI" in st.session_state[wdg.LAYER_KEY]:
                 st.markdown("##### POI DATA")
                 st.dataframe(poi_df, use_container_width=True, hide_index=True)
