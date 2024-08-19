@@ -38,7 +38,7 @@ with st.sidebar:
         icon="ℹ️",
     )
 
-    chck_city_filter_active = st.checkbox("City Filter")
+    chck_city_filter_active = st.checkbox("Country Filter")
 
     if chck_city_filter_active:
         with st.spinner("Loading Countries!"):
