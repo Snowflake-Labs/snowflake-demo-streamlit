@@ -13,7 +13,6 @@ The app features an intuitive sidebar for filtering and visualizing different la
 To operate effectively, SmartGeoPOI relies on the following data products from the Snowflake marketplace (How to install them [here](https://other-docs.snowflake.com/en/native-apps/consumer-installing).):
 
 - [Overture Maps - Places](https://app.snowflake.com/marketplace/listing/GZT0Z4CM1E9KR/carto-overture-maps-places)
-- [Northern Trains Station Data](https://app.snowflake.com/marketplace/listing/GZTDZ2CEXT/northern-trains-ltd-northern-trains-station-data)
 
 ### Streamlit Setup
 
@@ -23,37 +22,37 @@ When [setting up a new Streamlit App](https://docs.snowflake.com/en/developer-gu
 
    Navigate to the Data section on the left side of the screen. Go to Databases and locate the database associated with your Streamlit App (e.g., `SAMPLEDATABASE.PUBLIC`).
 
-   ![Left Menu](../instructions_assets/left_menu.png)
+   ![Left Menu](./instructions_assets/left_menu.png)
 
 2. **Selecting the Database and Schema**
 
    Choose the appropriate database and then select the schema where your Streamlit App resides (e.g., public).
 
-   ![Look for database](../instructions_assets/look_for_database.png)
+   ![Look for database](./instructions_assets/look_for_database.png)
 
 3. **Viewing Stages**
 
    Navigate to Stages to find the automatically generated stage with a unique name.
 
-   ![Look for database](../instructions_assets/look_for_database2.png)
+   ![Look for database](./instructions_assets/look_for_database2.png)
 
 4. **Enabling Directory Listing**
 
    Click on the stage name. Initially, you will be prompted to "Enable Directory Listing". Click on the button to proceed.
 
-   ![Enable Directory](../instructions_assets/enable_directory.png)
+   ![Enable Directory](./instructions_assets/enable_directory.png)
 
 5. **Choosing a Warehouse**
 
    Select a warehouse that will process data for your Streamlit App.
 
-   ![Select warehouse](../instructions_assets/select_warehouse.png)
+   ![Select warehouse](./instructions_assets/select_warehouse.png)
 
 6. **Uploading Files**
 
    Click on "+ Files" in the upper right corner to open a popup for uploading necessary files. Refer to the [official documentation](https://docs.snowflake.com/en/user-guide/data-load-local-file-system-stage-ui) for details on file uploads.
 
-   ![Select files](../instructions_assets/upload_file.png)
+   ![Select files](./instructions_assets/upload_file.png)
 
 7. **Managing Files**
 
