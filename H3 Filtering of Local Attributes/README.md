@@ -32,13 +32,13 @@ When [setting up a new Streamlit App](https://docs.snowflake.com/en/developer-gu
 
 1. **Accessing the Stage**
 
-   Navigate to the Data section on the left side of the screen. Go to Databases and locate the database associated with your Streamlit App (e.g., `SAMPLEDATABASE.PUBLIC`).
+   Navigate to the Data section on the left side of the screen. Go to Databases and locate the database associated with your Streamlit App ( in this case `OVERTUREMAPS.PUBLIC`).
 
    ![Left Menu](../instructions_assets/left_menu.png)
 
 2. **Selecting the Database and Schema**
 
-   Choose the appropriate database and then select the schema where your Streamlit App resides (e.g., public).
+   Choose the appropriate database and then select the schema where your Streamlit App resides (in this case `OVERTUREMAPS.PUBLIC`).
 
    ![Look for database](../instructions_assets/look_for_database.png)
 
