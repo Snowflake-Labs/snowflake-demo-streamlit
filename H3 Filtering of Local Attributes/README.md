@@ -14,7 +14,7 @@ To operate effectively, SmartGeoPOI relies on the following data products from t
 
 - [Overture Maps - Places](https://app.snowflake.com/marketplace/listing/GZT0Z4CM1E9KR/carto-overture-maps-places)
 
-Since this app uses lookups with VARIANT fields, you can speed up search queries by enabling [search optimisation for semi-structured data](https://docs.snowflake.com/en/user-guide/search-optimization/semi-structured-queries). Since you can't enable Search optimisation on the shared tables, you need to create a copy of the Overture Maps table. Run following queries:
+Since this app uses lookups with VARIANT fields (Country, City, Category), you can speed up search queries by enabling [search optimisation for semi-structured data](https://docs.snowflake.com/en/user-guide/search-optimization/semi-structured-queries). Since you can't enable Search optimisation on the shared tables, you need to create a copy of the Overture Maps table. Run following queries:
 
 ```sql
 
