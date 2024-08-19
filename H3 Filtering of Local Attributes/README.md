@@ -17,8 +17,9 @@ To operate effectively, SmartGeoPOI relies on the following data products from t
 Since this app uses lookups with VARIANT fields (Country, City, Category), you can speed up search queries by enabling [search optimisation for semi-structured data](https://docs.snowflake.com/en/user-guide/search-optimization/semi-structured-queries). Since you can't enable Search optimisation on the shared tables, you need to create a copy of the Overture Maps table. Run following queries:
 
 ```sql
+CREATE OR REPLACE DATABASE OVERTUREMAPS;
 
-CREATE OR REPLACE TABLE overturemaps.public.place
+CREATE OR REPLACE TABLE OVERTUREMAPS.PUBLIC.PLACE
 AS SELECT * FROM OVERTURE_MAPS__PLACES.CARTO.PLACE;
 
 ALTER TABLE t1 ADD SEARCH OPTIMIZATION ON EQUALITY("ADDRESSES"['list'][0]['element']['country'], "ADDRESSES"['list'][0]['element']['locality', "CATEGORIES"['main'])
