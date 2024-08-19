@@ -14,6 +14,17 @@ To operate effectively, SmartGeoPOI relies on the following data products from t
 
 - [Overture Maps - Places](https://app.snowflake.com/marketplace/listing/GZT0Z4CM1E9KR/carto-overture-maps-places)
 
+Since this app uses lookups with VARIANT fields, you can speed up search queries by enabling [search optimisation for semi-structured data](https://docs.snowflake.com/en/user-guide/search-optimization/semi-structured-queries). Since you can't enable Search optimisation on the shared tables, you need to create a copy of the Overture Maps table. Run following queries:
+
+```sql
+
+CREATE OR REPLACE TABLE overturemaps.public.place
+AS SELECT * FROM OVERTURE_MAPS__PLACES.CARTO.PLACE;
+
+ALTER TABLE t1 ADD SEARCH OPTIMIZATION ON EQUALITY("ADDRESSES"['list'][0]['element']['country'], "ADDRESSES"['list'][0]['element']['locality', "CATEGORIES"['main'])
+
+```
+
 ### Streamlit Setup
 
 When [setting up a new Streamlit App](https://docs.snowflake.com/en/developer-guide/streamlit/create-streamlit-ui), Snowflake automatically creates a new stage for the app. Follow these steps to access and manage your app's stage:
