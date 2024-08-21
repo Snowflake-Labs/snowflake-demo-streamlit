@@ -1,0 +1,7 @@
+name: app_environment
+channels:
+  - snowflake
+dependencies:
+  - altair=4.2.2
+  - pandas=2.0.3
+  - snowflake-telemetry-python=0.3.0
