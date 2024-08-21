@@ -1,0 +1,8 @@
+name: app_environment
+channels:
+  - snowflake
+dependencies:
+  - python=3.8.*
+  - spacy=3.5.3
+  - spacy-model-en_core_web_sm=3.5.0
+  - streamlit=1.35.0
