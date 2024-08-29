@@ -27,6 +27,25 @@ CREATE OR REPLACE TABLE DOCS_SUMMARIES (
 -----------------------------------------------------
 -- Create Functions
 -----------------------------------------------------
+
+CREATE OR REPLACE FUNCTION SAMPLEDATABASE.RAG_DEMO.GET_PDF_RAW("FILE_PATH" VARCHAR)
+RETURNS BINARY
+LANGUAGE PYTHON
+RUNTIME_VERSION = '3.8'
+PACKAGES = ('snowflake-snowpark-python','pypdf2')
+HANDLER = 'read_file'
+AS '
+from io import BytesIO
+from PyPDF2 import PdfFileReader
+from snowflake.snowpark.files import SnowflakeFile
+
+
+def read_file(file_path):
+    with SnowflakeFile.open(file_path, "rb") as file:
+        return file.readall()
+';
+
+
 CREATE OR REPLACE FUNCTION PDF_TEXT_CHUNKER(FILE_URL STRING)
 RETURNS TABLE (CHUNK VARCHAR)
 LANGUAGE PYTHON
