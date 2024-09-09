@@ -1,0 +1,43 @@
+DATE,HOLIDAY_NAME,IS_FINANCIAL
+2022-01-03,"""New Year's Day (Observed)""",true
+2022-02-21,"""Family Day""",true
+2022-04-15,"""Good Friday""",true
+2022-04-18,"""Easter Monday""",false
+2022-05-23,"""Victoria Day""",true
+2022-07-01,"""Canada Day""",true
+2022-08-01,"""Civic Holiday""",true
+2022-09-05,"""Labour Day""",true
+2022-09-19,"""Funeral of Her Majesty the Queen Elizabeth II""",false
+2022-10-10,Thanksgiving,true
+2022-11-11,"""Remembrance Day""",false
+2022-12-25,"""Christmas Day""",false
+2022-12-26,"""Boxing Day""",true
+2022-12-27,"""Christmas Day (Observed)""",true
+2023-01-01,"""New Year's Day""",false
+2023-01-02,"""New Year's Day (Observed)""",true
+2023-02-20,"""Family Day""",true
+2023-04-07,"""Good Friday""",true
+2023-04-10,"""Easter Monday""",false
+2023-05-22,"""Victoria Day""",true
+2023-07-01,"""Canada Day""",false
+2023-07-03,"""Canada Day (Observed)""",true
+2023-08-07,"""Civic Holiday""",true
+2023-09-04,"""Labour Day""",true
+2023-09-30,"""National Day for Truth and Reconciliation""",false
+2023-10-09,Thanksgiving,true
+2023-11-11,"""Remembrance Day""",false
+2023-12-25,"""Christmas Day""",true
+2023-12-26,"""Boxing Day""",true
+2024-01-01,"""New Year's Day""",true
+2024-02-19,"""Family Day""",true
+2024-03-29,"""Good Friday""",true
+2024-04-01,"""Easter Monday""",false
+2024-05-20,"""Victoria Day""",true
+2024-07-01,"""Canada Day""",true
+2024-08-05,"""Civic Holiday""",true
+2024-09-02,"""Labour Day""",true
+2024-09-30,"""National Day for Truth and Reconciliation""",false
+2024-10-14,Thanksgiving,true
+2024-11-11,"""Remembrance Day""",false
+2024-12-25,"""Christmas Day""",true
+2024-12-26,"""Boxing Day""",true
