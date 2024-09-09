@@ -26,7 +26,7 @@ Here are some resources to learn more:
 * [Streamlit in Snowflake Website](https://www.snowflake.com/en/data-cloud/overview/streamlit-in-snowflake/)
 * Streamlit in Snowflake [Documentation](https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit)
 * Streamlit Open Source [Documentation](https://docs.streamlit.io/)
-* Snowflake [Release Notes](https://docs.snowflake.com/en/release-notes/new-features)
+* Streamlit in Snowflake [Release Notes](https://docs.snowflake.com/en/release-notes/streamlit-in-snowflake)
 
 
 ## Other links
