@@ -1,0 +1,17 @@
+definition_version: 1
+streamlit:
+  name: LLM_Evaluation
+  query_warehouse: SAMPLE_WH
+  stage: STAGE
+  main_file: streamlit_app.py
+  env_file: environment.yml
+  additional_source_files:
+    - app_pages/account.py
+    - app_pages/conversation_analysis.py
+    - app_pages/user_management.py
+    - ui/components.py
+    - ui/modals.py
+    - utils/pages.py
+    - utils/queries.py
+    - utils/utils.py
+    - streamlit_app.py
