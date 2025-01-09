@@ -1,7 +1,7 @@
 ![](../shared_assets/sis-header.jpeg)
 
 # CSS Based Widget Customization in Streamlit
-This application will help you understand the basic structure of some of the most popular Streamlit widgets. Each page contains an editor to allow you to test these CSS changes.
+This application will help you understand the basic structure of some of the most popular Streamlit widgets. Each page shows the CSS code and how it changes a Streamlit widget's UX.
 
 Note: This app requires Streamlit v1.39 or higher.
 
