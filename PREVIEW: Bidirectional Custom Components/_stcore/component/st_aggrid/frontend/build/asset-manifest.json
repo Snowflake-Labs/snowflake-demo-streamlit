@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "./static/css/main.b3beccb6.css",
+    "main.js": "./static/js/main.49edc81a.js",
+    "static/media/source-sans-pro-latin-ext-400-normal.woff": "./static/media/source-sans-pro-latin-ext-400-normal.185cedfb4e64a9a8801a.woff",
+    "static/media/source-sans-pro-latin-ext-400-normal.woff2": "./static/media/source-sans-pro-latin-ext-400-normal.23e9c5217d09910f51ad.woff2",
+    "static/media/source-sans-pro-latin-400-normal.woff": "./static/media/source-sans-pro-latin-400-normal.7a5ba508b998fd7044ed.woff",
+    "static/media/source-sans-pro-latin-400-normal.woff2": "./static/media/source-sans-pro-latin-400-normal.1402accbefdec6a25762.woff2",
+    "static/media/source-sans-pro-cyrillic-400-normal.woff": "./static/media/source-sans-pro-cyrillic-400-normal.a00a7030792ec450d68c.woff",
+    "static/media/source-sans-pro-greek-400-normal.woff": "./static/media/source-sans-pro-greek-400-normal.3c06b5e22c42ade5562f.woff",
+    "static/media/source-sans-pro-cyrillic-400-normal.woff2": "./static/media/source-sans-pro-cyrillic-400-normal.153bee8d873292f9df39.woff2",
+    "static/media/source-sans-pro-greek-ext-400-normal.woff": "./static/media/source-sans-pro-greek-ext-400-normal.7a64c855edb8d403283b.woff",
+    "static/media/source-sans-pro-vietnamese-400-normal.woff": "./static/media/source-sans-pro-vietnamese-400-normal.ed0bf5e1a4bd41349850.woff",
+    "static/media/source-sans-pro-greek-400-normal.woff2": "./static/media/source-sans-pro-greek-400-normal.9c7d72dcc7a044db07b1.woff2",
+    "static/media/source-sans-pro-cyrillic-ext-400-normal.woff": "./static/media/source-sans-pro-cyrillic-ext-400-normal.3fe9e8e4c00e9124b9c7.woff",
+    "static/media/source-sans-pro-greek-ext-400-normal.woff2": "./static/media/source-sans-pro-greek-ext-400-normal.1b1cb10170f2616853f0.woff2",
+    "static/media/source-sans-pro-vietnamese-400-normal.woff2": "./static/media/source-sans-pro-vietnamese-400-normal.540007fe6de95f52230e.woff2",
+    "static/media/source-sans-pro-cyrillic-ext-400-normal.woff2": "./static/media/source-sans-pro-cyrillic-ext-400-normal.de95c5209ef26bf69ccf.woff2",
+    "index.html": "./index.html",
+    "main.b3beccb6.css.map": "./static/css/main.b3beccb6.css.map",
+    "main.49edc81a.js.map": "./static/js/main.49edc81a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b3beccb6.css",
+    "static/js/main.49edc81a.js"
+  ]
+}

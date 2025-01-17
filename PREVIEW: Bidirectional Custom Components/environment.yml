@@ -1,0 +1,10 @@
+name: app_environment
+channels:
+  - snowflake
+dependencies:
+  - pyecharts=2.0.6
+  - python=3.11.*
+  - python-decouple=3.8
+  - simplejson=3.19.2
+  - snowflake-snowpark-python=
+  - streamlit=
