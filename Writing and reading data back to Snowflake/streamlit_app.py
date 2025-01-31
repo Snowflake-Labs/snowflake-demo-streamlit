@@ -6,7 +6,7 @@ session = get_active_session()
 # Change the query to point to your table
 def get_data(_session):
     query = """
-    select * from DB.SCHEMA.BUG_REPORT_DATA
+    select * from MY_DB.MY_SCHEMA.BUG_REPORT_DATA
     order by date desc
     limit 100
     """
@@ -16,7 +16,7 @@ def get_data(_session):
 
 # Change the query to point to your table
 def add_row_to_db(session, row):
-    sql = f"""INSERT INTO DB.SCHEMA.BUG_REPORT_DATA VALUES
+    sql = f"""INSERT INTO MY_DB.MY_SCHEMA.BUG_REPORT_DATA VALUES
     ('{row['author']}', 
      '{row['bug_type']}',
      '{row['comment']}',
