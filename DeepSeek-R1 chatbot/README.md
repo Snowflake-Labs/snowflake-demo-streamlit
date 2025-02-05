@@ -12,7 +12,7 @@ This app shows how to call the DeepSeek-R1 model to make LLM inference to engage
 
 Here are some key features of the app
 - The chatbot retains memory of the conversation and can be reset at any time via the *clear chat history* button.
-- You'll also notice that because this is a reasoning model, the *think* phase is displayed in the output and is encapsulated within the `<think> </think>` tags, which we'll parse and place within the `st.status()` container.
+- You'll also notice that because this is a reasoning model, the *think* phase is displayed in the output and is encapsulated within the `<think> </think>` tags, which we'll parse and place within the `st.status()` container for aesthetic display and separation from the final answer.
 
 ## Resources
 - Read about this in this accompanying blog on [*How to build a DeepSeek-R1 chatbot*](https://medium.com/snowflake/how-to-build-a-deepseek-r1-chatbot-1edbf6e5e9fe)
