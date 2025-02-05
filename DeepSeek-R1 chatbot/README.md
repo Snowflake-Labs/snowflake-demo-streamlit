@@ -10,6 +10,11 @@ This reasoning model is made available as part of [Snowflake Cortex](https://doc
 
 This app shows how to call the DeepSeek-R1 model to make LLM inference to engage in a conversation with the chatbot. 
 
+In addition, as the chatbot is using the DeepSeek-R1 reasoning model, you can ask thought-provoking questions and see how the LLM thinks under-the-hood!
+
+Here are some example questions to ask:
+- 
+
 Here are some key features of the app
 - The chatbot retains memory of the conversation and can be reset at any time via the *clear chat history* button.
 - You'll also notice that because this is a reasoning model, the *think* phase is displayed in the output and is encapsulated within the `<think> </think>` tags, which we'll parse and place within the `st.status()` container for aesthetic display and separation from the final answer.
