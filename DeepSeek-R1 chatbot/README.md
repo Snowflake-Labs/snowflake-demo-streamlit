@@ -6,6 +6,8 @@ This chatbot is created using the open-source [**DeepSeek-R1**](https://github.c
 
 This reasoning model is made available as part of [Snowflake Cortex](https://docs.snowflake.com/en/user-guide/snowflake-cortex/llm-functions).
 
+![](./assets/app.png)
+
 ## About the app
 
 This app shows how to call the DeepSeek-R1 model to make LLM inference to engage in a conversation with the chatbot. 
