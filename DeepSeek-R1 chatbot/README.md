@@ -15,7 +15,6 @@ In addition, as the chatbot is using the DeepSeek-R1 reasoning model, you can as
 Here are example questions to ask:
 - *What is the speed of an unladen swallow?*
 - *How many balloons would it take to lift a small cabin?*
-- *How many leaves would a maple tree need to photosynthesize a cup of syrup?*
 
 Here are some key features of the app
 - The chatbot retains memory of the conversation and can be reset at any time via the *clear chat history* button.
