@@ -12,8 +12,8 @@ This app shows how to call the DeepSeek-R1 model to make LLM inference to engage
 
 In addition, as the chatbot is using the DeepSeek-R1 reasoning model, you can ask thought-provoking questions and see how the LLM thinks under-the-hood!
 
-Here are some example questions to ask:
-- 
+Here are example questions to ask:
+- *What is the speed of an unladen swallow?*
 
 Here are some key features of the app
 - The chatbot retains memory of the conversation and can be reset at any time via the *clear chat history* button.
