@@ -28,7 +28,7 @@ relative_dates = get_relative_dates()
 search_params = {}
 query_term = st.selectbox(
     "Search Term:",
-    get_airlines(),
+    ["SouthwestAir", "VirginAmerica", "united", "JetBlue", "USAirways", "AmericanAir"],
     placeholder="Select airline...",
     key="i_search_term",
 )

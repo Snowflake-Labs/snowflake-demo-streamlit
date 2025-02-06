@@ -60,12 +60,12 @@ CREATE OR REPLACE SCHEMA airlines_sentiment_s;
 CREATE OR REPLACE NETWORK RULE airlines_sentiment_db.airlines_sentiment_s.NLTK
   MODE = EGRESS
   TYPE = HOST_PORT
-  VALUE_LIST = ('https://www.nltk.org/nltk_data');
+  VALUE_LIST = ('nltk.org');
 
 CREATE OR REPLACE NETWORK RULE airlines_sentiment_db.airlines_sentiment_s.GITHUB_USER_CONTENT
   MODE = EGRESS
   TYPE = HOST_PORT
-  VALUE_LIST = ('https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/index.xml');
+  VALUE_LIST = ('raw.githubusercontent.com');
 
 CREATE OR REPLACE EXTERNAL ACCESS INTEGRATION airlines_sentiment_a_i
   ALLOWED_NETWORK_RULES = ( airlines_sentiment_db.airlines_sentiment_s.NLTK,airlines_sentiment_db.airlines_sentiment_s.GITHUB_USER_CONTENT )
