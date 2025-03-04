@@ -4,7 +4,6 @@ import pandas as pd
 import plotly.express as px
 import pydeck as pdk
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
 
 
 @st.cache_data
@@ -20,7 +19,7 @@ def get_dataframe_from_raw_sql(query: str) -> pd.DataFrame:
         pd.DataFrame: The query result as a pandas dataframe.
     """
     # Get active session to query the Snowflake database
-    session = get_active_session()
+    session = st.connection("snowflake").session()
     pandas_df = session.sql(query).to_pandas()
     return pandas_df
 
@@ -107,7 +106,9 @@ def render_plotly_line_chart(chart_df: pd.DataFrame):
     )
 
 
-st.set_page_config(layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(
+    page_title="NY Pickup Location App", layout="wide", initial_sidebar_state="expanded"
+)
 st.title("NY Pickup Location App :taxi:")
 st.write(
     """An app that visualizes geo-temporal data from NY taxi pickups using H3 and time series. 
