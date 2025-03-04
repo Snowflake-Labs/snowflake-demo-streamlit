@@ -8,4 +8,4 @@ dependencies:
   - pydeck=0.8.0
   - python=3.8.*
   - snowflake-snowpark-python
-  - streamlit=1.26
+  - streamlit=1.29
