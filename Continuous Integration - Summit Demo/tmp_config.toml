@@ -1,6 +1,0 @@
-[connections.default]
-account = "cjb04798"
-user = "tylerrichards"
-role = "ACCOUNTADMIN"
-database = "STREAMLIT"
-schema = "SIS_APPS"
