@@ -25,7 +25,7 @@ def get_generated_email(
     return rephrased_content
 
 
-st.header("Email Generator :incoming_envelope:", anchor=False)
+st.header("Email Generator APP :incoming_envelope:", anchor=False)
 st.write(
     """
     This app generates professional emails customized to your selected topic based on the details you provide.
