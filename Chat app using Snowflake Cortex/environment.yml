@@ -2,7 +2,7 @@ name: app_environment
 channels:
   - snowflake
 dependencies:
-  - python=3.8.*
-  - snowflake-ml-python
-  - snowflake-snowpark-python
-  - streamlit
+  - python=3.11.*
+  - snowflake-ml-python=1.5.1
+  - snowflake-snowpark-python=1.30.0
+  - streamlit=1.39.1
