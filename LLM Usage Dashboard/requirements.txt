@@ -1,0 +1,6 @@
+# Packages in this file will be installed into the app environment
+pandas
+plotly
+snowflake-ml-python
+snowflake-snowpark-python
+streamlit
