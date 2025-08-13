@@ -88,7 +88,7 @@ credits_used_df = session.sql
 #     Cards at Top
 #############################################
 # Credits Used Tile
-st.markdown("### LLM Inference Usage")
+st.markdown("### AI Services Overview")
 credits_used_sql = f"select round(sum(credits_used),0) as total_credits from snowflake.account_usage.metering_history where start_time between '{s}' and '{e}' and SERVICE_TYPE = 'AI_SERVICES'"
 credits_used_df = session.sql(credits_used_sql)
 pandas_credits_used_df = credits_used_df.to_pandas()
@@ -173,16 +173,18 @@ fig_function_pie = px.pie(pandas_credits_by_function_df,
                           title="Credit Spend Distribution by Function Name (%)")
 fig_function_pie.update_traces(textposition='inside', textinfo='percent+label')
 
+st.plotly_chart(fig_ai_services_pie, use_container_width=True)
+
+#############################################
+#     Credit Usage Total (Bar Chart)
+#############################################
+
 st.markdown("### LLM Inference Usage")
 col1, col2 = st.columns(2)
 col1.metric("Total # of Complete Credits",
             "{:,}".format(int(num_credits_tile)))
 col2.metric("Total # of Complete Tokens", num_tokens_tile)
 
-
-#############################################
-#     Credit Usage Total (Bar Chart)
-#############################################
 
 # Inference Credits Usage by Function, Model (Total)
 total_credits_used_sql = f"select model_name,sum(token_credits) as total_credits_used, SUM(tokens) as TOTAL_TOKENS_USED from snowflake.account_usage.CORTEX_FUNCTIONS_USAGE_HISTORY where function_name = 'COMPLETE' and start_time between '{s}' and '{e}' group by 1 order by 2 desc limit 10 "
@@ -205,7 +207,7 @@ fig_tokens_used = px.bar(pandas_tokens_used_df, x='TOTAL_TOKENS_USED',
                          y='MODEL_NAME', orientation='h', title="Tokens Used by Model")
 fig_tokens_used.update_traces(marker_color='purple')
 
-credits_by_warehouse_sql = f"SELECT warehouse_name,w.warehouse_id,  sum(token_credits) as cortex_complete_credits, sum(credits_used_compute) as total_compute_credits FROM SNOWFLAKE.ACCOUNT_USAGE.WAREHOUSE_METERING_HISTORY as w JOIN SNOWFLAKE.ACCOUNT_USAGE.CORTEX_FUNCTIONS_USAGE_HISTORY as c on c.warehouse_id = w.warehouse_id where function_name = 'COMPLETE' and c.start_time between '{s}' and '{e}' group by warehouse_name, w.warehouse_id order by 3 desc;"
+credits_by_warehouse_sql = f"SELECT warehouse_name,w.warehouse_id,  sum(token_credits) as cortex_complete_credits, sum(credits_used_compute) as total_compute_credits FROM SNOWFLAKE.ACCOUNT_USAGE.WAREHOUSE_METERING_HISTORY as w JOIN SNOWFLAKE.ACCOUNT_USAGE.CORTEX_FUNCTIONS_USAGE_HISTORY as c on c.warehouse_id = w.warehouse_id where c.start_time between '{s}' and '{e}' group by warehouse_name, w.warehouse_id order by 3 desc;"
 credits_by_wh_df = session.sql(credits_by_warehouse_sql)
 pandas_wh_df = credits_by_wh_df.to_pandas()
 
@@ -221,10 +223,7 @@ fig_wh_used.update_traces(marker_color='green')
 container1 = st.container()
 
 with container1:
-    # First row: AI Services Breakdown Pie Chart
-    st.plotly_chart(fig_ai_services_pie, use_container_width=True)
-
-    # Second row: Function Name Distribution Pie Chart
+   # Second row: Function Name Distribution Pie Chart
     st.plotly_chart(fig_function_pie, use_container_width=True)
 
     # Third row: Bar Charts
@@ -254,7 +253,7 @@ credits_by_wh = st.dataframe(
 
 st.markdown("Historical Cortex Queries")
 all_cortex_functions = session.sql(
-    f"select q.query_id, model_name, tokens, token_credits, query_text, user_name, role_name, total_elapsed_time from SNOWFLAKE.account_usage.CORTEX_FUNCTIONS_QUERY_USAGE_HISTORY as c join snowflake.account_usage.query_history as q on c.query_id = q.query_id where q.start_time between '{s}' and '{e}';")
+    f"select q.query_id, model_name, function_name, tokens, token_credits, query_text, user_name, role_name, total_elapsed_time from SNOWFLAKE.account_usage.CORTEX_FUNCTIONS_QUERY_USAGE_HISTORY as c join snowflake.account_usage.query_history as q on c.query_id = q.query_id where q.start_time between '{s}' and '{e}';")
 all_cortex_functions_df = all_cortex_functions.to_pandas()
 
 user_filter = st.multiselect(
