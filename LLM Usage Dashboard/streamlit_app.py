@@ -1,25 +1,15 @@
-# Import python packages
 import streamlit as st
 import pandas as pd
 from snowflake.snowpark.context import get_active_session
-from snowflake.snowpark.functions import col
-from snowflake.snowpark.window import Window
-from snowflake.ml.registry import Registry
-import plotly.express as px
 import datetime
-import json
 
 #############################################
 #     FORMATTING
 #############################################
-# set to wide format
 st.set_page_config(layout="wide")
-
-# Write directly to the app
 st.title("Snowflake LLM Usage App :snowflake:")
 st.divider()
 
-# Sub heading info
 st.markdown("This app is developed to go off of the account usage schema in your Snowflake account. For detailed information please see the documentation page below.")
 st.markdown(
     "https://docs.snowflake.com/en/sql-reference/account-usage#account-usage-views")
@@ -29,10 +19,6 @@ st.markdown(
 #############################################
 max_date = datetime.datetime.now()
 min_date = datetime.datetime.now() - datetime.timedelta(days=365)
-this_year = max_date.year
-jan_1 = datetime.date(this_year, 1, 1)
-dec_31 = datetime.date(this_year, 12, 31)
-
 
 if 'starting' not in st.session_state:
     st.session_state.starting = datetime.datetime.now() - datetime.timedelta(days=30)
@@ -40,50 +26,31 @@ if 'starting' not in st.session_state:
 if 'ending' not in st.session_state:
     st.session_state.ending = max_date
 
-
 st.markdown("Enter your desired date range (30 days on initial load):")
-
-# Column for Date Picker Buttons
 col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1])
 
-with col1:
-    if st.button('30 Days'):
-        st.session_state.starting = datetime.datetime.now() - datetime.timedelta(days=30)
-        st.session_state.ending = datetime.datetime.now()
-with col2:
-    if st.button('60 Days'):
-        st.session_state.starting = datetime.datetime.now() - datetime.timedelta(days=60)
-        st.session_state.ending = datetime.datetime.now()
-with col3:
-    if st.button('90 Days'):
-        st.session_state.starting = datetime.datetime.now() - datetime.timedelta(days=90)
-        st.session_state.ending = datetime.datetime.now()
-with col4:
-    if st.button('180 Days'):
-        st.session_state.starting = datetime.datetime.now() - datetime.timedelta(days=180)
-        st.session_state.ending = datetime.datetime.now()
-with col5:
-    if st.button('365 Days'):
-        st.session_state.starting = datetime.datetime.now() - datetime.timedelta(days=365)
-        st.session_state.ending = datetime.datetime.now()
+if col1.button('30 Days'):
+    st.session_state.starting = datetime.datetime.now() - datetime.timedelta(days=30)
+    st.session_state.ending = datetime.datetime.now()
+if col2.button('60 Days'):
+    st.session_state.starting = datetime.datetime.now() - datetime.timedelta(days=60)
+    st.session_state.ending = datetime.datetime.now()
+if col3.button('90 Days'):
+    st.session_state.starting = datetime.datetime.now() - datetime.timedelta(days=90)
+    st.session_state.ending = datetime.datetime.now()
+if col4.button('180 Days'):
+    st.session_state.starting = datetime.datetime.now() - datetime.timedelta(days=180)
+    st.session_state.ending = datetime.datetime.now()
+if col5.button('365 Days'):
+    st.session_state.starting = datetime.datetime.now() - datetime.timedelta(days=365)
+    st.session_state.ending = datetime.datetime.now()
 
-# Date Input
-date_input_filter = st.date_input(
-    "",
-    (st.session_state.starting, st.session_state.ending),
-    min_date,
-    max_date,
-)
-
-# Start and End Date (s = start, e = end)
-s, e = date_input_filter
+s, e = st.date_input("", (st.session_state.starting,
+                     st.session_state.ending), min_date, max_date)
 
 st.divider()
 
-# Get the current credentials
 session = get_active_session()
-credits_used_df = session.sql
-
 #############################################
 #     Cards at Top
 #############################################
@@ -102,13 +69,6 @@ pandas_num_jobs_df = num_jobs_df.to_pandas()
 # Final Value
 num_credits_tile = pandas_num_jobs_df.iloc[0].values[0]
 num_tokens_tile = pandas_num_jobs_df.iloc[0].values[1]
-
-# # Current Storage
-# current_storage_sql = f"select round(avg(storage_bytes + stage_bytes + failsafe_bytes) / power(1024, 4),2) as billable_tb from snowflake.account_usage.storage_usage where USAGE_DATE = current_date() -1;"
-# current_storage_df = session.sql(current_storage_sql)
-# pandas_current_storage_df = current_storage_df.to_pandas()
-# #Final Value
-# current_storage_tile = pandas_current_storage_df.iloc[0].values
 
 # Column formatting and metrics - top level metric only
 col1, col2, col3 = st.columns(3)
@@ -152,28 +112,24 @@ ai_services_df = pd.DataFrame(ai_services_data)
 # Filter out zero values for cleaner chart
 ai_services_df = ai_services_df[ai_services_df['Credits'] > 0]
 
-# Create AI Services breakdown pie chart
-fig_ai_services_pie = px.pie(ai_services_df,
-                             values='Credits',
-                             names='Service_Type',
-                             title="AI Services Credit Breakdown (%)",
-                             color_discrete_sequence=['#1f77b4', '#ff7f0e', '#2ca02c'])
-fig_ai_services_pie.update_traces(
-    textposition='inside', textinfo='percent+label')
+# Create AI Services breakdown chart using native streamlit
+if not ai_services_df.empty:
+    st.markdown("#### AI Services Credit Breakdown")
+    # Set Service_Type as index for the chart
+    ai_services_chart_df = ai_services_df.set_index('Service_Type')
+    st.bar_chart(ai_services_chart_df['Credits'])
 
-# Credits by Function Name (Pie Chart)
+# Credits by Function Name (Bar Chart)
 credits_by_function_sql = f"SELECT DISTINCT(function_name), ROUND(SUM(token_credits),2) as total_credits FROM SNOWFLAKE.account_usage.CORTEX_FUNCTIONS_USAGE_HISTORY WHERE start_time BETWEEN '{s}' AND '{e}' GROUP BY 1 ORDER BY 2 DESC"
 credits_by_function_df = session.sql(credits_by_function_sql)
 pandas_credits_by_function_df = credits_by_function_df.to_pandas()
 
-# Create pie chart for function distribution
-fig_function_pie = px.pie(pandas_credits_by_function_df,
-                          values='TOTAL_CREDITS',
-                          names='FUNCTION_NAME',
-                          title="Credit Spend Distribution by Function Name (%)")
-fig_function_pie.update_traces(textposition='inside', textinfo='percent+label')
-
-st.plotly_chart(fig_ai_services_pie, use_container_width=True)
+# Create bar chart for function distribution using native streamlit
+if not pandas_credits_by_function_df.empty:
+    st.markdown("#### Credit Spend Distribution by Function Name")
+    function_chart_df = pandas_credits_by_function_df.set_index(
+        'FUNCTION_NAME')
+    st.bar_chart(function_chart_df['TOTAL_CREDITS'])
 
 #############################################
 #     Credit Usage Total (Bar Chart)
@@ -185,36 +141,18 @@ col1.metric("Total # of Complete Credits",
             "{:,}".format(int(num_credits_tile)))
 col2.metric("Total # of Complete Tokens", num_tokens_tile)
 
-
 # Inference Credits Usage by Function, Model (Total)
 total_credits_used_sql = f"select model_name,sum(token_credits) as total_credits_used, SUM(tokens) as TOTAL_TOKENS_USED from snowflake.account_usage.CORTEX_FUNCTIONS_USAGE_HISTORY where function_name = 'COMPLETE' and start_time between '{s}' and '{e}' group by 1 order by 2 desc limit 10 "
 total_credits_used_df = session.sql(total_credits_used_sql)
 pandas_credits_used_df = total_credits_used_df.to_pandas()
 
-# #Chart
-fig_credits_used = px.bar(pandas_credits_used_df, x='TOTAL_CREDITS_USED',
-                          y='MODEL_NAME', orientation='h', title="Credits Used by Model")
-fig_credits_used.update_traces(marker_color='green')
-
 # Convert to a pandas df
-# pandas_total_tokens_used_df = pandas_credits_used_df
 total_tokens_used_df = session.sql(total_credits_used_sql)
 pandas_tokens_used_df = total_tokens_used_df.to_pandas()
-
-# Chart
-
-fig_tokens_used = px.bar(pandas_tokens_used_df, x='TOTAL_TOKENS_USED',
-                         y='MODEL_NAME', orientation='h', title="Tokens Used by Model")
-fig_tokens_used.update_traces(marker_color='purple')
 
 credits_by_warehouse_sql = f"SELECT warehouse_name,w.warehouse_id,  sum(token_credits) as cortex_complete_credits, sum(credits_used_compute) as total_compute_credits FROM SNOWFLAKE.ACCOUNT_USAGE.WAREHOUSE_METERING_HISTORY as w JOIN SNOWFLAKE.ACCOUNT_USAGE.CORTEX_FUNCTIONS_USAGE_HISTORY as c on c.warehouse_id = w.warehouse_id where c.start_time between '{s}' and '{e}' group by warehouse_name, w.warehouse_id order by 3 desc;"
 credits_by_wh_df = session.sql(credits_by_warehouse_sql)
 pandas_wh_df = credits_by_wh_df.to_pandas()
-
-fig_wh_used = px.bar(pandas_wh_df, x='CORTEX_COMPLETE_CREDITS',
-                     y='WAREHOUSE_NAME', orientation='h', title="Credits Used by Warehouse")
-fig_wh_used.update_traces(marker_color='green')
-
 
 #############################################
 #     Container 1: Credits & Jobs
@@ -223,17 +161,27 @@ fig_wh_used.update_traces(marker_color='green')
 container1 = st.container()
 
 with container1:
-   # Second row: Function Name Distribution Pie Chart
-    st.plotly_chart(fig_function_pie, use_container_width=True)
-
     # Third row: Bar Charts
     plot1, plot2, plot3 = st.columns(3)
     with plot1:
-        st.plotly_chart(fig_credits_used, use_container_width=True)
+        st.markdown("##### Credits Used by Model")
+        if not pandas_credits_used_df.empty:
+            credits_model_chart = pandas_credits_used_df.set_index(
+                'MODEL_NAME')
+            st.bar_chart(credits_model_chart['TOTAL_CREDITS_USED'])
+
     with plot2:
-        st.plotly_chart(fig_tokens_used, use_container_width=True)
+        st.markdown("##### Tokens Used by Model")
+        if not pandas_tokens_used_df.empty:
+            tokens_model_chart = pandas_tokens_used_df.set_index('MODEL_NAME')
+            st.bar_chart(tokens_model_chart['TOTAL_TOKENS_USED'])
+
     with plot3:
-        st.plotly_chart(fig_wh_used, use_container_width=True)
+        st.markdown("##### Credits Used by Warehouse")
+        if not pandas_wh_df.empty:
+            wh_chart = pandas_wh_df.set_index('WAREHOUSE_NAME')
+            st.bar_chart(wh_chart['CORTEX_COMPLETE_CREDITS'])
+
 st.markdown("LLM & Compute Credits by WH")
 credits_by_wh = st.dataframe(
     pandas_wh_df,
@@ -243,8 +191,17 @@ credits_by_wh = st.dataframe(
     selection_mode="multi-row",
 )
 st.markdown("Credits by Model")
-credits_by_wh = st.dataframe(
+credits_by_model = st.dataframe(
     pandas_credits_used_df,
+    use_container_width=True,
+    hide_index=True,
+    on_select="rerun",
+    selection_mode="multi-row",
+)
+
+st.markdown("Credits by Function")
+credits_by_function = st.dataframe(
+    pandas_credits_by_function_df,
     use_container_width=True,
     hide_index=True,
     on_select="rerun",
@@ -289,13 +246,11 @@ col1.metric("Total Cortex Analyst Credits", "{:,}".format(num_ca_credits_tile))
 col2.metric("Total # of Cortex Analyst Messages",
             "{:,}".format(num_ca_messages_tile))
 
-# #Chart
-fig_credits_used_ca = px.bar(
-    pandas_day_df, y='TOTAL_REQUEST_COUNT', x='DAY', title="Requests by Day")
-fig_credits_used_ca.update_traces(marker_color='green')
-
-# Display the bar chart
-st.plotly_chart(fig_credits_used_ca, use_container_width=True)
+# Chart using native streamlit
+st.markdown("#### Cortex Analyst Requests by Day")
+if not pandas_day_df.empty:
+    ca_chart_df = pandas_day_df.set_index('DAY')
+    st.bar_chart(ca_chart_df['TOTAL_REQUEST_COUNT'])
 
 #############################################
 #     DOCUMENT PROCESSING
@@ -349,30 +304,16 @@ col3.metric("Total Documents Processed",
 
 # Create charts if we have data
 if not pandas_doc_credits_by_day_df.empty:
-    # Credits by day chart
-    fig_doc_credits_daily = px.bar(
-        pandas_doc_credits_by_day_df,
-        x='DAY',
-        y='DAILY_CREDITS',
-        title="Document Processing Credits by Day"
-    )
-    fig_doc_credits_daily.update_traces(marker_color='purple')
-
-    # Pages processed by day chart
-    fig_doc_pages_daily = px.bar(
-        pandas_doc_credits_by_day_df,
-        x='DAY',
-        y='DAILY_PAGES',
-        title="Pages Processed by Day"
-    )
-    fig_doc_pages_daily.update_traces(marker_color='orange')
-
-    # Display charts
+    # Display charts using native streamlit
     col1, col2 = st.columns(2)
     with col1:
-        st.plotly_chart(fig_doc_credits_daily, use_container_width=True)
+        st.markdown("#### Document Processing Credits by Day")
+        doc_credits_chart = pandas_doc_credits_by_day_df.set_index('DAY')
+        st.bar_chart(doc_credits_chart['DAILY_CREDITS'])
     with col2:
-        st.plotly_chart(fig_doc_pages_daily, use_container_width=True)
+        st.markdown("#### Pages Processed by Day")
+        doc_pages_chart = pandas_doc_credits_by_day_df.set_index('DAY')
+        st.bar_chart(doc_pages_chart['DAILY_PAGES'])
 
     # Show data table
     st.markdown("#### Daily Document Processing Details")
@@ -404,7 +345,6 @@ pandas_cortex_search_service_df = cortex_search_by_service_df.to_pandas()
 
 num_cs_credits_tile = pandas_cortex_search_df.iloc[0].values[0]
 
-
 st.metric("Total Cortex Search Serving Credits",
           "{:,}".format(num_cs_credits_tile))
 
@@ -421,30 +361,23 @@ ORDER BY day
 cortex_search_by_day_df = session.sql(cortex_search_by_day_sql)
 pandas_cortex_search_by_day_df = cortex_search_by_day_df.to_pandas()
 
-# Create charts
+# Create charts using native streamlit
 col1, col2 = st.columns(2)
 
 with col1:
-    # Credits by service chart
-    fig_credits_used_cs = px.bar(pandas_cortex_search_service_df, x='TOTAL_CREDITS',
-                                 y='SERVICE_NAME', orientation='h', title="Credits Used by Service")
-    fig_credits_used_cs.update_traces(marker_color='green')
-    st.plotly_chart(fig_credits_used_cs, use_container_width=True)
+    st.markdown("#### Cortex Search Credits by Service")
+    if not pandas_cortex_search_service_df.empty:
+        cs_service_chart = pandas_cortex_search_service_df.set_index(
+            'SERVICE_NAME')
+        st.bar_chart(cs_service_chart['TOTAL_CREDITS'])
 
 with col2:
-    # Credits by day chart
+    st.markdown("#### Cortex Search Credits by Day")
     if not pandas_cortex_search_by_day_df.empty:
-        fig_cs_credits_daily = px.bar(
-            pandas_cortex_search_by_day_df,
-            x='DAY',
-            y='DAILY_CREDITS',
-            title="Cortex Search Credits by Day"
-        )
-        fig_cs_credits_daily.update_traces(marker_color='teal')
-        st.plotly_chart(fig_cs_credits_daily, use_container_width=True)
+        cs_day_chart = pandas_cortex_search_by_day_df.set_index('DAY')
+        st.bar_chart(cs_day_chart['DAILY_CREDITS'])
     else:
         st.info("No daily Cortex Search activity found for the selected date range.")
-
 
 #############################################
 #     FOOTER
@@ -452,8 +385,8 @@ with col2:
 st.divider()
 foot1, foot2 = st.columns([1, 1])
 
-
 with foot1:
-    st.markdown("Version 2.0")
+    st.markdown("Version 3.0")
 with foot2:
     st.markdown("August 2025")
+#
