@@ -1,6 +1,6 @@
 altair==5.0.1
 htbuilder==0.6.1
-nltk==3.8.1
+nltk>=3.9
 textblob==0.17.1
 fuzzywuzzy
 plotly
