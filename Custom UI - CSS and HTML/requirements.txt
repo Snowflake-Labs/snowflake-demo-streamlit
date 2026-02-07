@@ -1,5 +1,5 @@
 snowflake-snowpark-python
 streamlit
 streamlit-extras==0.2.7
-ydata-profiling==4.1.1
-scikit-learn==1.3.0
+ydata-profiling>=4.9.0
+scikit-learn>=1.5.0

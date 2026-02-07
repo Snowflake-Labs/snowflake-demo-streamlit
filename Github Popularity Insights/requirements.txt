@@ -1,4 +1,4 @@
 altair==5.0.1
 pandas==2.0.3
-sqlparse==0.4.4
+sqlparse>=0.5.0
 streamlit

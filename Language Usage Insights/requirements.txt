@@ -2,5 +2,5 @@ altair==5.0.1
 pandas==2.0.3
 pydeck==0.8.0
 snowflake-snowpark-python
-sqlparse==0.4.4
+sqlparse>=0.5.0
 streamlit
