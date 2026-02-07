@@ -1,0 +1,6 @@
+branca==0.6.0
+pandas==2.0.3
+plotly==5.19.0
+pydeck==0.8.0
+snowflake-snowpark-python
+streamlit

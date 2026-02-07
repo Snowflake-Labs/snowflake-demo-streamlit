@@ -1,0 +1,5 @@
+altair==5.0.1
+pandas==2.0.3
+snowflake-ml-python==1.5.3
+streamlit
+snowflake

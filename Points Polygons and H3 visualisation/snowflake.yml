@@ -1,9 +1,9 @@
 definition_version: 2
 entities:
-  my_prod_app:
+  points_polygons_h3:
     type: streamlit
     identifier:
-      name: MY_PROD_APP
+      name: points_polygons_h3
     query_warehouse: <your_warehouse>
     compute_pool: <your_compute_pool>
     runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11

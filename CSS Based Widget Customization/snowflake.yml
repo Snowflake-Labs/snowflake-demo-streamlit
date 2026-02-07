@@ -1,9 +1,9 @@
 definition_version: 2
 entities:
-  my_prod_app:
+  css_widget_customization:
     type: streamlit
     identifier:
-      name: MY_PROD_APP
+      name: css_widget_customization
     query_warehouse: <your_warehouse>
     compute_pool: <your_compute_pool>
     runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11
@@ -12,4 +12,9 @@ entities:
     main_file: streamlit_app.py
     artifacts:
       - streamlit_app.py
+      - common.py
+      - home/
+      - layouts/
+      - widgets/
+      - static/
       - requirements.txt

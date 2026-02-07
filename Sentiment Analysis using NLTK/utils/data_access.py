@@ -1,10 +1,18 @@
 from typing import List
-from snowflake.snowpark.context import get_active_session
 
 import pandas as pd
 import streamlit as st
 
-session = get_active_session()
+
+def get_snowflake_session():
+    """Get Snowflake session - works both in Snowflake and locally."""
+    try:
+        from snowflake.snowpark.context import get_active_session
+        return get_active_session()
+    except Exception:
+        # Running locally - use st.connection
+        conn = st.connection("snowflake")
+        return conn.session()
 
 
 @st.cache_data
@@ -18,6 +26,7 @@ def get_dataframe_from_raw_sql(query: str) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The query result as a pandas dataframe.
     """
+    session = get_snowflake_session()
     pandas_df = session.sql(query).to_pandas()
     return pandas_df
 
@@ -33,4 +42,5 @@ def execute_query_with_params(query: str, params: List) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The result as a pandas dataframe.
     """
+    session = get_snowflake_session()
     return session.sql(query, params=params).to_pandas()

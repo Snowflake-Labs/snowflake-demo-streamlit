@@ -1,9 +1,9 @@
 definition_version: 2
 entities:
-  my_prod_app:
+  language_usage_insights:
     type: streamlit
     identifier:
-      name: MY_PROD_APP
+      name: language_usage_insights
     query_warehouse: <your_warehouse>
     compute_pool: <your_compute_pool>
     runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11
@@ -12,4 +12,7 @@ entities:
     main_file: streamlit_app.py
     artifacts:
       - streamlit_app.py
+      - components.py
+      - locale_list.py
+      - utils.py
       - requirements.txt

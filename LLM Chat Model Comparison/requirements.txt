@@ -1,0 +1,2 @@
+snowflake-ml-python
+streamlit

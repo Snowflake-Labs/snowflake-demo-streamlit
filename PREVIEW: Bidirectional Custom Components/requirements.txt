@@ -1,0 +1,6 @@
+snowflake-snowpark-python
+streamlit
+streamlit-echarts
+streamlit-aggrid
+streamlit-extras
+streamlit-option-menu
