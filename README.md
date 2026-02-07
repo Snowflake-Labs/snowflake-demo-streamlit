@@ -4,6 +4,14 @@ This repo contains a collection of Streamlit in Snowflake demos, tutorials, and 
 
 ![](./shared_assets/sis-home.png)
 
+## Prerequisites
+
+Install [Snowflake CLI](https://docs.snowflake.com/en/developer-guide/snowflake-cli/installation/installation) (>= 3.14):
+
+```bash
+brew install snowflake-cli
+```
+
 ## Repository structure
 
 Every folder is an independent Streamlit app containing code, setup scripts and sample data needed to run the app. Every app contains a README file which serves as a guide to setting up the app and using it. 
