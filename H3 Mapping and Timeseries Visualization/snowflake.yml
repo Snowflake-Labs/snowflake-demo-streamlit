@@ -1,9 +1,9 @@
 definition_version: 2
 entities:
-  my_prod_app:
+  h3_mapping_timeseries:
     type: streamlit
     identifier:
-      name: MY_PROD_APP
+      name: h3_mapping_timeseries
     query_warehouse: <your_warehouse>
     compute_pool: <your_compute_pool>
     runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11

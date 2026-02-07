@@ -1,9 +1,9 @@
 definition_version: 2
 entities:
-  my_prod_app:
+  account_usage_monitoring:
     type: streamlit
     identifier:
-      name: MY_PROD_APP
+      name: account_usage_monitoring
     query_warehouse: <your_warehouse>
     compute_pool: <your_compute_pool>
     runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11
@@ -12,4 +12,10 @@ entities:
     main_file: streamlit_app.py
     artifacts:
       - streamlit_app.py
+      - components.py
+      - processing.py
+      - queries.py
+      - pages.py
+      - storage_page.py
+      - data_transfer_page.py
       - requirements.txt

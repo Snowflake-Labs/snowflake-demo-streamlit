@@ -1,6 +1,15 @@
-definition_version: 1
-streamlit:
-  name: MY_DEV_APP
-  query_warehouse: AF_TEST
-  main_file: streamlit_app.py
-  env_file: environment.yml
+definition_version: 2
+entities:
+  my_dev_app:
+    type: streamlit
+    identifier:
+      name: MY_DEV_APP
+    query_warehouse: <your_warehouse>
+    compute_pool: <your_compute_pool>
+    runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11
+    external_access_integrations:
+      - PYPI_ACCESS_INTEGRATION
+    main_file: streamlit_app.py
+    artifacts:
+      - streamlit_app.py
+      - requirements.txt

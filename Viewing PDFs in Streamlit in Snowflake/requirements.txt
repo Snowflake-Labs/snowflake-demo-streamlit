@@ -1,0 +1,4 @@
+pandas==2.0.3
+pypdfium2==4.19.0
+snowflake-snowpark-python
+streamlit
