@@ -1,0 +1,8 @@
+name: inventory_tracker_environment
+channels:
+  - snowflake
+dependencies:
+  - streamlit
+  - snowflake-snowpark-python
+  - altair
+  - pandas

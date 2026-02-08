@@ -1,0 +1,17 @@
+definition_version: 2
+entities:
+  inventory_tracker:
+    type: streamlit
+    identifier:
+      name: inventory_tracker
+      schema: INVENTORYTRACKER
+      database: SAMPLEDATABASE
+    query_warehouse: COMPUTE_WH
+    compute_pool: SIS_COMPUTE_POOL
+    runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11
+    external_access_integrations:
+      - PYPI_ACCESS_INTEGRATION
+    main_file: streamlit_app.py
+    artifacts:
+      - streamlit_app.py
+      - pyproject.toml
