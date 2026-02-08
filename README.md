@@ -12,7 +12,9 @@ Install [Snowflake CLI](https://docs.snowflake.com/en/developer-guide/snowflake-
 brew install snowflake-cli
 ```
 
-**Optional (Recommended):** Install [Cortex Code CLI](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli) for AI-assisted development and debugging of Streamlit apps.
+**Optional (Recommended)** 
+
+Install [Cortex Code CLI](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli) for AI-assisted development and debugging of Streamlit apps.
 
 ## Repository structure
 
