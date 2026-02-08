@@ -6,7 +6,7 @@ session = get_active_session()
 # Change the query to point to your table
 def get_data(_session):
     query = """
-    select * from MY_DB.MY_SCHEMA.BUG_REPORT_DATA
+    select * from LOCAL_DEMO.PUBLIC.BUG_REPORT_DATA
     order by date desc
     limit 100
     """
@@ -16,14 +16,17 @@ def get_data(_session):
 
 # Change the query to point to your table
 def add_row_to_db(session, row):
-    sql = f"""INSERT INTO MY_DB.MY_SCHEMA.BUG_REPORT_DATA VALUES
-    ('{row['author']}', 
-     '{row['bug_type']}',
-     '{row['comment']}',
-     '{row['date']}',
-     '{row['bug_severity']}')"""
+    """Safely insert a row into BUG_REPORT_DATA using Snowpark DataFrame."""
+    data = [[
+        row['author'],
+        row['bug_type'],
+        row['comment'],
+        row['date'],
+        row['bug_severity']
+    ]]
 
-    session.sql(sql).collect()
+    df = session.create_dataframe(data, schema=["AUTHOR", "BUG_TYPE", "COMMENT", "DATE", "BUG_SEVERITY"])
+    df.write.mode("append").save_as_table("LOCAL_DEMO.PUBLIC.BUG_REPORT_DATA")
 
 st.set_page_config(page_title="Bug report", layout="centered")
 
