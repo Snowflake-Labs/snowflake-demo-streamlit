@@ -3,9 +3,11 @@ entities:
   writing_reading_data:
     type: streamlit
     identifier:
-      name: writing_reading_data
-    query_warehouse: <your_warehouse>
-    compute_pool: <your_compute_pool>
+      name: bug_report_crud_app
+      database: LOCAL_DEMO
+      schema: PUBLIC
+    query_warehouse: COMPUTE_WH
+    compute_pool: SIS_COMPUTE_POOL
     runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11
     external_access_integrations:
       - PYPI_ACCESS_INTEGRATION
