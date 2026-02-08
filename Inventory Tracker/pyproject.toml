@@ -1,0 +1,10 @@
+[project]
+name = "inventory-tracker"
+requires-python = ">= 3.11"
+version = "0.0.1"
+description = "Inventory Tracker - Read and write inventory data to Snowflake"
+dependencies = [
+    "streamlit[snowflake]",
+    "altair",
+    "pandas"
+]

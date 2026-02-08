@@ -12,6 +12,8 @@ Install [Snowflake CLI](https://docs.snowflake.com/en/developer-guide/snowflake-
 brew install snowflake-cli
 ```
 
+**Optional (Recommended):** Install [Cortex Code CLI](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli) for AI-assisted development and debugging of Streamlit apps.
+
 ## Repository structure
 
 Every folder is an independent Streamlit app containing code, setup scripts and sample data needed to run the app. Every app contains a README file which serves as a guide to setting up the app and using it. 
