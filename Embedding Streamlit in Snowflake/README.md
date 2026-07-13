@@ -1,8 +1,8 @@
 # Streamlit-in-Snowflake embedding samples
 
-Three minimal, copy-paste-ready Next.js apps that embed a **Streamlit-in-Snowflake**
-app in an `<iframe>`. Each folder is identical except for **how it authenticates to
-Snowflake** to mint the embed URL:
+Minimal, copy-paste-ready examples that embed a **Streamlit-in-Snowflake**
+app in an `<iframe>`. Each `examples/` folder is identical except for **how it
+authenticates to Snowflake** to mint the embed URL:
 
 | Folder                | Auth method                       | Best for                                  |
 | --------------------- | --------------------------------- | ----------------------------------------- |
@@ -11,11 +11,16 @@ Snowflake** to mint the embed URL:
 | `examples/wif`        | Workload Identity Federation (OIDC) | Cloud workloads with a federated JWT     |
 | `examples/plain-node` | PAT, no framework                 | Zero-dependency reference (Node http + static HTML) |
 
-The first three are Next.js (App Router). `plain-node` is the same flow with no
-framework — a Node `http` server that mints the URL and serves one static HTML page —
-for anyone who wants the bare mechanics without React. It uses PAT; swap the
-`createConnection` config in `server.mjs` to use Key-Pair or WIF (see the routes in the
-other folders).
+`pat`, `keypair`, and `wif` are Next.js (App Router). `plain-node` is the same
+flow with no framework — a Node `http` server that mints the URL and serves one
+static HTML page — for anyone who wants the bare mechanics without React. It uses
+PAT; swap the `createConnection` config in `server.mjs` to use Key-Pair or WIF
+(see the routes in the other folders).
+
+The `demo/` folder is a fuller example: a styled analytics portal (Next.js) that
+embeds the Streamlit app as a live panel, using the same PAT flow. Start with an
+`examples/` folder to learn the mechanics; look at `demo/` to see it in a
+realistic UI.
 
 ## How it works
 
@@ -31,6 +36,11 @@ Browser  ◀──{ embedUrl }───────  server
 
 The embed URL is minted **server-side** and is **single-use** — the client mints one
 per load and never caches it (`dynamic = "force-dynamic"`).
+
+Each app reuses **one long-lived Snowflake connection** across requests (see
+`getConnection` in the route). The embed code is bound to the session that minted
+it, so that session must stay alive until the browser redeems the code — opening
+and closing a connection per request causes the embed to fail with a `401`.
 
 Only two files carry the real logic in each app:
 - `app/api/embed-url/route.ts` — connects to Snowflake and runs the system function.
