@@ -1,0 +1,11 @@
+node_modules
+.next
+.env.local
+*.pem
+*.p8
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+snowflake.log
+package-lock.json
+*.pub

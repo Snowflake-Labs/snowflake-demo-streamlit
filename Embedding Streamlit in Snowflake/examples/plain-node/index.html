@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SiS Embed — Plain Node</title>
+    <style>
+      html, body { margin: 0; height: 100% }
+      iframe { border: 0; width: 100vw; height: 100vh }
+      #msg { padding: 24px; font-family: system-ui }
+    </style>
+  </head>
+  <body>
+    <p id="msg">Loading…</p>
+    <script>
+      fetch("/api/embed-url")
+        .then((r) => r.json())
+        .then((d) => {
+          if (!d.embedUrl) throw new Error(d.error)
+          const f = document.createElement("iframe")
+          f.src = d.embedUrl
+          f.title = "Streamlit in Snowflake"
+          f.allow = "clipboard-read; clipboard-write; fullscreen"
+          document.body.replaceChildren(f)
+        })
+        .catch((e) => { document.getElementById("msg").textContent = "Error: " + e.message })
+    </script>
+  </body>
+</html>
