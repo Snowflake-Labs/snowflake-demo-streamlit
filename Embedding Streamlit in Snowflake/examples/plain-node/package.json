@@ -1,0 +1,12 @@
+{
+  "name": "sis-embed-plain-node",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file=.env.local server.mjs"
+  },
+  "dependencies": {
+    "snowflake-sdk": "^2.4.3"
+  }
+}

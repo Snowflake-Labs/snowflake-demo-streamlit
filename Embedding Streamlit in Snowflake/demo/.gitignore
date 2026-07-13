@@ -1,0 +1,7 @@
+node_modules
+.next
+.env.local
+*.pem
+*.p8
+snowflake.log
+package-lock.json
