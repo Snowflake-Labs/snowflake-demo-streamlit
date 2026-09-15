@@ -1,50 +1,47 @@
 import { NextResponse } from "next/server"
-import snowflake from "snowflake-sdk"
 
 export const runtime = "nodejs"
-export const dynamic = "force-dynamic"
+export const dynamic = "force-dynamic" // never cache the single-use embed URL
 
-// The embed code is bound to the session that minted it, so reuse one
-// long-lived connection rather than opening one per request.
-let connPromise: Promise<snowflake.Connection> | null = null
+// Mint an embed URL via the Streamlit REST API. No SQL session, so no warehouse.
+async function mintEmbedUrl(): Promise<string> {
+  const [db, schema, name] = process.env.STREAMLIT_APP!.split(".").map(encodeURIComponent)
+  const url =
+    `${process.env.SNOWFLAKE_ACCOUNT_URL}/api/v2/databases/${db}/schemas/${schema}` +
+    `/streamlits/${name}:generate-embed-url`
 
-function getConnection(): Promise<snowflake.Connection> {
-  if (connPromise) return connPromise
-  connPromise = new Promise((resolve, reject) => {
-    const conn = snowflake.createConnection({
-      account: process.env.SNOWFLAKE_ACCOUNT!,
-      username: process.env.SNOWFLAKE_USER!,
-      authenticator: "PROGRAMMATIC_ACCESS_TOKEN",
-      token: process.env.SNOWFLAKE_PAT!,
-      role: process.env.SNOWFLAKE_ROLE,
-      warehouse: process.env.SNOWFLAKE_WAREHOUSE,
-    })
-    conn.connect((err) => (err ? reject(err) : resolve(conn)))
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${process.env.SNOWFLAKE_PAT!}`,
+      "X-Snowflake-Authorization-Token-Type": "PROGRAMMATIC_ACCESS_TOKEN",
+      // Required: the app is resolved under this role. No default-role fallback.
+      "X-Snowflake-Role": process.env.SNOWFLAKE_ROLE!,
+    },
+    body: JSON.stringify({ parent_origin: process.env.PARENT_ORIGIN }),
   })
-  connPromise.catch(() => (connPromise = null))
-  return connPromise
+
+  // Note: never log the response body — it carries the embed URL, a bearer credential.
+  if (res.status === 204) {
+    throw new Error(
+      "Endpoint returned 204 No Content — this account's build predates the mint " +
+        "implementation. See the endpoint-availability notes in the README.",
+    )
+  }
+  if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`)
+  return (await res.json()).embed_url
 }
 
 export async function GET() {
   try {
-    const conn = await getConnection()
-    return NextResponse.json({ embedUrl: await mintEmbedUrl(conn) })
+    return NextResponse.json({ embedUrl: await mintEmbedUrl() })
   } catch (e) {
-    connPromise = null
-    return NextResponse.json({ error: (e as Error).message }, { status: 500 })
+    // Log the detail, return a generic message: upstream error text names objects
+    // the caller may not be allowed to know exist. Safe to log here — a failed
+    // mint has no embed URL in it.
+    console.error("[embed-url] mint failed:", e)
+    return NextResponse.json({ error: "Failed to mint embed URL" }, { status: 500 })
   }
-}
-
-function mintEmbedUrl(conn: snowflake.Connection): Promise<string> {
-  const app = process.env.STREAMLIT_APP!.replace(/'/g, "''")
-  const origin = process.env.PARENT_ORIGIN!.replace(/'/g, "''")
-  return new Promise((resolve, reject) => {
-    conn.execute({
-      sqlText: `SELECT SYSTEM$STREAMLIT_GENERATE_EMBED_URL('${app}', '${origin}')`,
-      complete: (err, _stmt, rows) => {
-        if (err) return reject(err)
-        resolve(JSON.parse(Object.values(rows![0])[0] as string).embed_url)
-      },
-    })
-  })
 }
