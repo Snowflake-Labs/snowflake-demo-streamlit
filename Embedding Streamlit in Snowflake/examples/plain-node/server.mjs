@@ -1,55 +1,42 @@
 import { createServer } from "node:http"
 import { readFile } from "node:fs/promises"
-import snowflake from "snowflake-sdk"
 
 const PORT = process.env.PORT || 3000
 
-// The embed code is bound to the session that minted it, so reuse one
-// long-lived connection rather than opening one per request.
-let connPromise = null
-
-function getConnection() {
-  if (connPromise) return connPromise
-  connPromise = new Promise((resolve, reject) => {
-    const conn = snowflake.createConnection({
-      account: process.env.SNOWFLAKE_ACCOUNT,
-      username: process.env.SNOWFLAKE_USER,
-      authenticator: "PROGRAMMATIC_ACCESS_TOKEN",
-      token: process.env.SNOWFLAKE_PAT,
-      role: process.env.SNOWFLAKE_ROLE,
-      warehouse: process.env.SNOWFLAKE_WAREHOUSE,
-    })
-    conn.connect((err) => (err ? reject(err) : resolve(conn)))
-  })
-  connPromise.catch(() => (connPromise = null))
-  return connPromise
-}
-
-function mintEmbedUrl(conn) {
-  const app = process.env.STREAMLIT_APP.replace(/'/g, "''")
-  const origin = process.env.PARENT_ORIGIN.replace(/'/g, "''")
-  return new Promise((resolve, reject) => {
-    conn.execute({
-      sqlText: `SELECT SYSTEM$STREAMLIT_GENERATE_EMBED_URL('${app}', '${origin}')`,
-      complete: (err, _stmt, rows) => {
-        if (err) return reject(err)
-        resolve(JSON.parse(Object.values(rows[0])[0]).embed_url)
+async function mintEmbedUrl() {
+  const [db, schema, name] = process.env.STREAMLIT_APP.split(".").map(encodeURIComponent)
+  const res = await fetch(
+    `${process.env.SNOWFLAKE_ACCOUNT_URL}/api/v2/databases/${db}/schemas/${schema}` +
+      `/streamlits/${name}:generate-embed-url`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.SNOWFLAKE_PAT}`,
+        "X-Snowflake-Authorization-Token-Type": "PROGRAMMATIC_ACCESS_TOKEN",
+        // Required: the app is resolved under this role. No default-role fallback.
+        "X-Snowflake-Role": process.env.SNOWFLAKE_ROLE,
       },
-    })
-  })
+      body: JSON.stringify({ parent_origin: process.env.PARENT_ORIGIN }),
+    },
+  )
+  if (!res.ok) throw new Error(`${res.status}: ${await res.text()}`)
+  return (await res.json()).embed_url
 }
 
 createServer(async (req, res) => {
   if (req.url === "/api/embed-url") {
     try {
-      const conn = await getConnection()
-      const embedUrl = await mintEmbedUrl(conn)
-      res.writeHead(200, { "content-type": "application/json" })
+      const embedUrl = await mintEmbedUrl()
+      // Never cache: the embed code is single-use.
+      res.writeHead(200, { "content-type": "application/json", "cache-control": "no-store" })
       res.end(JSON.stringify({ embedUrl }))
     } catch (e) {
-      connPromise = null
+      // Log the detail, return a generic message: upstream error text names objects
+      // the caller may not be allowed to know exist.
+      console.error("[embed-url] mint failed:", e)
       res.writeHead(500, { "content-type": "application/json" })
-      res.end(JSON.stringify({ error: e.message }))
+      res.end(JSON.stringify({ error: "Failed to mint embed URL" }))
     }
     return
   }

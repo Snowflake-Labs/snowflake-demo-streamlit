@@ -12,7 +12,7 @@
   <body>
     <p id="msg">Loading…</p>
     <script>
-      fetch("/api/embed-url")
+      fetch("/api/embed-url", { cache: "no-store" })
         .then((r) => r.json())
         .then((d) => {
           if (!d.embedUrl) throw new Error(d.error)

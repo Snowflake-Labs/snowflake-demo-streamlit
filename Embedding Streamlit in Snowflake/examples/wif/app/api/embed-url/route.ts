@@ -1,50 +1,41 @@
 import { NextResponse } from "next/server"
-import snowflake from "snowflake-sdk"
 
 export const runtime = "nodejs"
-export const dynamic = "force-dynamic"
-
-// The embed code is bound to the session that minted it, so reuse one
-// long-lived connection rather than opening one per request.
-let connPromise: Promise<snowflake.Connection> | null = null
-
-function getConnection(): Promise<snowflake.Connection> {
-  if (connPromise) return connPromise
-  connPromise = new Promise((resolve, reject) => {
-    const conn = snowflake.createConnection({
-      account: process.env.SNOWFLAKE_ACCOUNT!,
-      authenticator: "WORKLOAD_IDENTITY",
-      workloadIdentityProvider: "OIDC",
-      token: process.env.SNOWFLAKE_WIF_TOKEN!,
-      role: process.env.SNOWFLAKE_ROLE,
-      warehouse: process.env.SNOWFLAKE_WAREHOUSE,
-    })
-    conn.connect((err) => (err ? reject(err) : resolve(conn)))
-  })
-  connPromise.catch(() => (connPromise = null))
-  return connPromise
-}
+export const dynamic = "force-dynamic" // never cache the single-use embed URL
 
 export async function GET() {
   try {
-    const conn = await getConnection()
-    return NextResponse.json({ embedUrl: await mintEmbedUrl(conn) })
+    return NextResponse.json({
+      embedUrl: await mintEmbedUrl({
+        // WIF.{AWS|AZURE|GCP|OIDC}.{token} — identity comes from the token, not a username
+        Authorization: `Bearer WIF.OIDC.${process.env.SNOWFLAKE_WIF_TOKEN}`,
+        "X-Snowflake-Authorization-Token-Type": "WORKLOAD_IDENTITY_FEDERATION",
+      }),
+    })
   } catch (e) {
-    connPromise = null
-    return NextResponse.json({ error: (e as Error).message }, { status: 500 })
+    // Log the detail, return a generic message: upstream error text names objects
+    // the caller may not be allowed to know exist.
+    console.error("[embed-url] mint failed:", e)
+    return NextResponse.json({ error: "Failed to mint embed URL" }, { status: 500 })
   }
 }
 
-function mintEmbedUrl(conn: snowflake.Connection): Promise<string> {
-  const app = process.env.STREAMLIT_APP!.replace(/'/g, "''")
-  const origin = process.env.PARENT_ORIGIN!.replace(/'/g, "''")
-  return new Promise((resolve, reject) => {
-    conn.execute({
-      sqlText: `SELECT SYSTEM$STREAMLIT_GENERATE_EMBED_URL('${app}', '${origin}')`,
-      complete: (err, _stmt, rows) => {
-        if (err) return reject(err)
-        resolve(JSON.parse(Object.values(rows![0])[0] as string).embed_url)
+async function mintEmbedUrl(auth: Record<string, string>): Promise<string> {
+  const [db, schema, name] = process.env.STREAMLIT_APP!.split(".").map(encodeURIComponent)
+  const res = await fetch(
+    `${process.env.SNOWFLAKE_ACCOUNT_URL}/api/v2/databases/${db}/schemas/${schema}` +
+      `/streamlits/${name}:generate-embed-url`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Required: the app is resolved under this role. No default-role fallback.
+        "X-Snowflake-Role": process.env.SNOWFLAKE_ROLE!,
+        ...auth,
       },
-    })
-  })
+      body: JSON.stringify({ parent_origin: process.env.PARENT_ORIGIN }),
+    },
+  )
+  if (!res.ok) throw new Error(`${res.status}: ${await res.text()}`)
+  return (await res.json()).embed_url
 }

@@ -26,7 +26,7 @@ export default function Page() {
   const loadEmbed = useCallback(() => {
     setError(null)
     setEmbedUrl(null)
-    fetch("/api/embed-url")
+    fetch("/api/embed-url", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d) => setEmbedUrl(d.embedUrl))
       .catch(() => setError("Could not reach the analytics service."))

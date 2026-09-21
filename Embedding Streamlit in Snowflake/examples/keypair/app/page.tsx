@@ -10,7 +10,7 @@ export default function Page() {
   useEffect(() => {
     if (requested.current) return // embed URL is single-use; mint once
     requested.current = true
-    fetch("/api/embed-url")
+    fetch("/api/embed-url", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => (d.embedUrl ? setUrl(d.embedUrl) : setError(d.error)))
       .catch((e) => setError(String(e)))
